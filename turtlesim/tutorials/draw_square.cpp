@@ -3,6 +3,7 @@
 #include <turtlesim/Pose.h>
 #include <geometry_msgs/Twist.h>
 #include <std_srvs/Empty.h>
+#include <angles/angles.h>
 
 turtlesim::PoseConstPtr g_pose;
 turtlesim::Pose g_goal;
@@ -28,7 +29,7 @@ void poseCallback(const turtlesim::PoseConstPtr& pose)
 
 bool hasReachedGoal()
 {
-  return fabsf(g_pose->x - g_goal.x) < 0.1 && fabsf(g_pose->y - g_goal.y) < 0.1 && fabsf(g_pose->theta - g_goal.theta) < 0.01;
+  return fabsf(g_pose->x - g_goal.x) < 0.1 && fabsf(g_pose->y - g_goal.y) < 0.1 && fabsf(angles::shortest_angular_distance(g_pose->theta, g_goal.theta)) < 0.01;
 }
 
 bool hasStopped()
